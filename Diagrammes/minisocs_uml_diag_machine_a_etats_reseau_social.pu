@@ -1,0 +1,18 @@
+@startuml
+
+'Diagramme de machine à états (PlantUML)'
+
+'Configuration charte graphique'
+
+'États et transitions'
+state EnCréation : entry : constructeur()
+state EnDestruction : entry : destructeur()
+
+[*] -right-> EnCréation
+EnCréation -right-> ouvert
+ouvert --> fermé : utilisateur modérateur ferme\n/ fermer()
+ouvert --> EnDestruction : demande destruction
+fermé --> EnDestruction : demande destruction
+EnDestruction-left-> [*]
+
+@enduml

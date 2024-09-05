@@ -1,0 +1,79 @@
+@startuml
+
+'Diagramme de classes (PlantUML)'
+
+'Configuration charte graphique'
+hide empty methods
+hide circle
+skinparam class {
+  BackgroundColor White
+  ArrowColor Black
+  BorderColor Black
+}
+
+'Classes, énumérations, etc.'
+class MiniSocs {
+  - nomDuSysteme: String
+}
+class Utilisateur {
+  - pseudonyme: String
+  - nom: String
+  - prénom: String
+  - courriel: String
+  - etatCompte: ÉtatCompte
+  - statut: Statut
+  - monConsommateur : MonConsommateur
+}
+class Membership {
+  - pseudo_rs: String
+  - Rôle: Role
+}
+class Message {
+  - contenu: String
+  - auteur: Utilisateur
+  - reseausocial: String
+  - statut_mes: Statut_mes
+  - etat_mes: Etat_mes
+}
+class Reseausocial {
+  - nomDuReseauSocial: String
+  - créateur: Utilisateur
+  - etat_res: Etat_res
+  - producteur: SubmissionPublisher
+}
+enum ÉtatCompte <<enum>> {
+  ACTIF
+  DÉSACTIVÉ
+  BLOQUÉ
+}
+enum Statut <<enum>> {
+  SIMPLE UTILISATEUR
+  ADMINISTRATEUR
+}
+enum Role <<enum>> {
+  SIMPLE MEMBRE
+  MODÉRATEUR
+}
+enum Statut_mes <<enum>> {
+  en attente de modération
+  non accepté
+  accepté
+}
+enum Etat_mes <<enum>> {
+  VISIBLE
+  NON VISIBLE
+}
+enum Etat_res <<enum>> {
+  FERMÉ
+  OUVERT
+}
+
+'Associations, etc.'
+MiniSocs *--> "*" Utilisateur
+MiniSocs *--> "*" Reseausocial
+Reseausocial *--> "*" Message
+
+Utilisateur "1"--"*" Membership 
+Membership "*"--"1" Reseausocial
+'Au besoin, aides pour le positionnement'
+@enduml

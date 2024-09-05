@@ -1,0 +1,53 @@
+@startuml
+
+'Diagramme de séquence (PlantUML)'
+
+'Configuration charte graphique'
+hide footbox
+skinparam sequenceParticipantBackgroundColor White
+skinparam sequenceActorBackgroundColor White
+
+'Déclaration des acteurs et des participants (déjà existants avant la séquence)'
+actor "__:Utilisateur__" as utilisateur
+participant "__mn:Minisocs__" as mn
+participant "__u:Utilisateur__" as u
+participant "__r:Reseau_social__" as r
+participant "___m:Message__" as m
+
+
+'Séquence avec les messages, les créations de participants, etc.'
+utilisateur -> mn ++ : posterMessage(pseudo_rs, contenu, reseausocial)
+opt contenu non null ∧ non vide
+opt pseudo_rs non null
+opt reseausocial non null ∧ non vide
+mn->u++: utilisateurquiposte = getUtilisateur(pseudo_rs)
+return
+opt utilisateurquiposte non null
+mn->r++: rs = getReseauSocial(reseausocial)
+return
+opt rs non null  
+r->r++: ajouterMessage(contenu, utilisateurquiposte, reseausocial)
+r->m++: message = get(contenu)
+return
+mn->u++: etatCompte = getEtatCompte()
+return
+opt etatCompte = ACTIF
+mn->u++ : role = getRoleDansReseauSocial(rs)
+return
+opt role = SIMPLEMEMBRE
+m->m++: setStatutEnAttente()
+m->m++: SetEtatMesNonVisible()
+mn->r++:getProducteur().submit(notification)
+mn->r++:getProducteur().close()
+end
+end  
+end
+end
+end
+end
+end
+return
+return
+return
+return
+@enduml

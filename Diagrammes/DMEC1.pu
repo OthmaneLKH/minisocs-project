@@ -1,0 +1,24 @@
+@startuml
+
+'Diagramme de machine à états (PlantUML)'
+
+'Configuration charte graphique'
+
+'États et transitions'
+state EnCréation : entry : constructeur()
+state EnDestruction : entry : destructeur()
+
+[*] -right-> EnCréation
+EnCréation -right-> EnAttenteDeModération
+EnAttenteDeModération --> NonAccepté : modérateur refuse\n/ refuser()
+EnAttenteDeModération --> EnDestruction : demande destruction
+EnAttenteDeModération --> Accepté : modérateur accepte\n/ accepter()
+Accepté --> Visible 
+Accepté --> NonVisible : utilisateur cache\n/ cacher()
+NonAccepté --> EnDestruction : demande destruction
+Accepté --> EnDestruction : demande destruction
+Visible --> EnDestruction : demande destruction
+NonVisible --> EnDestruction : demande destruction
+EnDestruction-left-> [*]
+
+@enduml
